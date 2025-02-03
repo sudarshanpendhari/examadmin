@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title id="title">Results for Chemistry Test Final</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script defer type="module" src="rank.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 id="testname">Results for Chemistry Test Final</h2>
+        <div class="d-flex align-items-center my-3">
+            <label for="entries" class="me-2">entries per page</label>
+            <select id="entries" class="form-select w-auto">
+                <option>100</option>
+                <!-- Add other options as needed -->
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="search" class="form-label">Search:</label>
+            <input type="text" id="search" class="form-control">
+        </div>
+        <table  class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Correct</th>
+                    <th>Incorrect</th>
+                    <th>Unanswered</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="tableb">
+                <!-- <tr>
+                    <td>1</td>
+                    <td>Rajnandini Raut</td>
+                    <td>114.00</td>
+                    <td>67</td>
+                    <td>31</td>
+                    <td>2</td>
+                </tr> -->
+                
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

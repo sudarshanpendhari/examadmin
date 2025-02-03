@@ -1,0 +1,66 @@
+body {
+    padding: 20px;
+}
+.nav-tabs .nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+.btn-group .btn {
+    border-radius: 0;
+}
+.btn-group .btn:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.btn-group .btn:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.question {
+    margin-top: 20px;
+}
+.option {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.option input {
+    margin-right: 10px;
+}
+.option label {
+    margin: 0;
+}
+.option.correct {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    padding: 5px;
+}
+.option.correct {
+    background-color: #d4edda; /* Light green */
+}
+
+.option.incorrect {
+    background-color: #f8d7da; /* Light red */
+}
+.label {
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.correct-label {
+    color: #155724;
+    background-color: #d4edda; /* Light green */
+}
+
+.incorrect-label {
+    color: #721c24;
+    background-color: #f8d7da; /* Light red */
+}
+
+.unattempted {
+    color: #856404;
+    background-color: #fff3cd; /* Light yellow */
+}

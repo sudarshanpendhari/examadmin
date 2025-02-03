@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="./style.css"/>
+    <script defer  type="module" src="login.js"  ></script>
+</head>
+<body>
+    <div class="background-circle blue"></div>
+    <div class="background-circle orange"></div>
+    <div class="login-container">
+        <h2>Login Here</h2>
+        <form>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Email or Phone">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password">
+            <input type="submit" id="submit" value="Log In">
+        </form>
+        <div class="social-login">
+            <label >Dont have Account?</label>
+            <button onclick="location.href='register.html'"> Register Here</button>
+
+        </div>
+    </div>
+</body>
+</html>

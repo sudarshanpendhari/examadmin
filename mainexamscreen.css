@@ -1,0 +1,269 @@
+.mbody {
+    font-family: Arial, sans-serif;
+}
+.header {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.header h1 {
+    font-size: 20px;
+    margin: 0;
+}
+.timer {
+   
+    font-size: 20px;
+}
+.question-section {
+    padding: 20px;
+}
+.question {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.options {
+    list-style: none;
+    padding: 0;
+}
+.options li {
+    margin-bottom: 10px;
+}
+.options input {
+    margin-right: 10px;
+}
+
+.sidebar {
+    background-color: #e6f2ff;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+    height: 100vh;
+    display: inline;
+}
+.sidebar .user-info {
+    text-align: center;
+    margin-bottom: 4px;
+}
+.sidebar .user-info img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+.sidebar .user-info p {
+    margin: 2px 0 0;
+}
+.sidebar .question-nav {
+    margin-bottom: 20px;
+    
+    /* min-height: 30%; */
+    max-height: 60%;
+    overflow-y: auto;
+    /* border: 1px solid #ddd; */
+    padding: 10px;
+}
+.sidebar .question-nav button {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+.sidebar .question-nav button.active {
+    background-color: #007bff;
+    
+}
+.sidebar .question-nav button.visited {
+    background-color: #d9edf7;
+}
+.footer {
+    padding: 10px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 75%;
+    background-color: #dee2e6;
+    color: white;
+    text-align: right;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+.footer button {
+    margin-left: 10px;
+}
+#submit{
+    position: fixed;bottom:0;
+    margin: 10px;
+    width: 18vw;
+}
+#saveandnext{
+    position: absolute; right:0;bottom:0;
+    
+    margin: 10px;
+}
+/* Basic styling for dialog box */
+.exam-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.exam-dialog-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.exam-dialog-content h3 {
+    margin-bottom: 10px;
+}
+
+.exam-dialog-content p {
+    margin-bottom: 20px;
+}
+
+.status {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+}
+
+.status div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.status div span {
+    margin-top: 5px;
+}
+
+.status .answered,
+.status .marked,
+.status .marked-answered,
+.status .not-visited,
+.status .not-answered {
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.status .answered {
+    background-color: #5cb85c;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.status .marked {
+    background-color: #9370db;
+}
+
+.status .marked-answered {
+    background-color: #ba55d3;
+}
+
+.status .not-visited {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+}
+
+.status .not-answered {
+    background-color: #d9534f;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .status {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .status div {
+        width: 100%;
+        max-width: 300px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .status div span {
+        margin-left: 10px;
+        margin-top: 0;
+    }
+}
+#rightClickDialog {
+    border: none;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#dialogMessage {
+    margin-bottom: 15px;
+}
+#closeDialog {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+}
+#closeDialog:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 750px) {
+    .status {
+        display: none;
+    }
+
+    
+}
+
+
+@media (max-width: 800px) {
+    #saveandnext {
+        position: relative;
+        
+        margin: 10px; /* Optional: Adjust width for small screens */
+    }
+}
+#backSubmit{
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 50px 50px 50px 50px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+#localempty{
+    border: none;
+    padding: 20px;
+    text-align: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    background: #f2f2f2;
+    border-radius: 8px;
+    
+}
+.loc{
+    margin-top: 40vh;
+}

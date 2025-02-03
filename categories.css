@@ -1,0 +1,125 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fc;
+    color: #333;
+}
+.sidebar {
+    background-color: #f8f9fc;
+    border-right: 1px solid #e7e7e7;
+    height: 100vh;
+    padding-top: 20px;
+}
+.sidebar a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.sidebar a:hover, .sidebar a.active {
+    background-color: #e7e7e7;
+    border-radius: 5px;
+}
+.sidebar .help a {
+    font-size: 14px;
+}
+/* Red color for Delete button */
+.delete-course-btn {
+    background-color: red;
+    color: white;
+    border: none;
+}
+.take-test-btn{
+    background-color: #6c63ff;
+}
+.take-test-btn:hover{
+    background-color: #6c63ff;
+}
+.delete-course-btn:hover {
+    background-color: darkred;
+}
+
+/* Yellow color for Update button */
+.update-course-btn {
+    background-color: yellow;
+    color: black;
+    border: none;
+}
+.courseName{
+   
+    color: #000;
+}
+.update-course-btn:hover {
+    background-color: goldenrod;
+}
+.content {
+    padding: 20px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #e7e7e7;
+}
+.header input {
+    width: 300px;
+    padding: 5px 10px;
+    border: 1px solid #e7e7e7;
+    border-radius: 20px;
+}
+.header .user-info {
+    display: flex;
+    align-items: center;
+}
+.header .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.header .user-info span {
+    font-size: 14px;
+}
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.card .card-body {
+    text-align: center;
+}
+.card .card-body img {
+    width: 50px;
+    margin-bottom: 10px;
+}
+
+.card .card-body .progress {
+    height: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.card .card-body .progress-bar {
+    background-color: #6c63ff;
+}
+.card .card-body {
+    background-color: #fefeff;
+    color: #fff;
+    border-radius: 20px;
+    padding: 5px 20px;
+}
+.section-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+.view-more {
+    text-align: right;
+    font-size: 14px;
+}
+.view-more a {
+    color: #6c63ff;
+    text-decoration: none;
+}

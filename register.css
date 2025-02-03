@@ -1,0 +1,23 @@
+#rightClickDialog {
+    border: none;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#dialogMessage {
+    margin-bottom: 15px;
+}
+#closeDialog {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+}
+#closeDialog:hover {
+    background-color: #0056b3;
+}
