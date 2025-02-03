@@ -33,7 +33,11 @@ const selectedTestId = localStorage.getItem("testId");
 async function loadQuestions() {
   try {
     const questionList = document.getElementById("questionList");
-    const q = query(collection(db, "Questions"));
+    const q = query(
+      collection(db, "Questions"),
+      where("CATEGORY", "==", selectedCatId),
+      where("TEST", "==", selectedTestId)
+    );
     const querySnapshot = await getDocs(q);
     console.log(querySnapshot);
 
