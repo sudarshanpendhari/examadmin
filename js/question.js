@@ -9,6 +9,7 @@ import {
   deleteDoc,
   addDoc,
   query,
+  where,
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 // Firebase configuration
@@ -33,19 +34,20 @@ const selectedTestId = localStorage.getItem("testId");
 async function loadQuestions() {
   try {
     const questionList = document.getElementById("questionList");
+    questionList.innerHTML = ""; // Clear existing questions
+
     const q = query(
       collection(db, "Questions"),
       where("CATEGORY", "==", selectedCatId),
       where("TEST", "==", selectedTestId)
     );
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot);
 
     querySnapshot.forEach((docSnapshot) => {
       const data = docSnapshot.data();
-      console.log(data);
+      const questions = data.questions;
 
-      if (data.CATEGORY === selectedCatId && data.TEST === selectedTestId) {
+      Object.entries(questions).forEach(([key, questionData]) => {
         const questionElement = document.createElement("div");
         questionElement.classList.add(
           "list-group-item",
@@ -54,126 +56,135 @@ async function loadQuestions() {
 
         let questionContent = "";
 
-        // Check the value of ismath and adjust accordingly
-        if (data.isMath === 0) {
-          // No changes, display question as-is
-          questionContent = `<div><strong>${data.Question}</strong></div>`;
-        } else if (data.isMath === 1) {
-          // Use MathJax to render the question (assuming LaTeX is used in the question)
-          questionContent = `<div><strong>${data.Question}</strong></div>`;
-          questionContent += `<div id="mathjax-container-${docSnapshot.id}">${data.Question}</div>`;
-        } else if (data.isMath === 2) {
-          // Load image from URL provided in the question field
+        if (questionData.isMath === 0) {
+          questionContent = `<div><strong>${questionData.Question}</strong></div>`;
+        } else if (questionData.isMath === 1) {
+          questionContent = `<div><strong>${questionData.Question}</strong></div>`;
+          questionContent += `<div id="mathjax-container-${docSnapshot.id}-${key}">${questionData.Question}</div>`;
+        } else if (questionData.isMath === 2) {
           questionContent = `<div><strong>Question:</strong></div>`;
-          questionContent += `<div><img src="${data.Question}" alt="Question Image" class="img-fluid" /></div>`;
+          questionContent += `<div><img src="${questionData.Question}" alt="Question Image" class="img-fluid" /></div>`;
         }
 
-        // Build the rest of the options and buttons
         questionElement.innerHTML = `
-                    ${questionContent}
-                    <div>Option A: ${data.A}</div>
-                    <div>Option B: ${data.B}</div>
-                    <div>Option C: ${data.C}</div>
-                    <div>Option D: ${data.D}</div>
-                    <div>Correct Option: ${
-                      ["A", "B", "C", "D"][data.Answer - 1]
-                    }</div>
-                    <div>
-                        <button class="btn btn-info editBtn" data-id="${
-                          docSnapshot.id
-                        }">Edit</button>
-                        <button class="btn btn-danger deleteBtn" data-id="${
-                          docSnapshot.id
-                        }">Delete</button>
-                    </div>
-                `;
+          ${questionContent}
+          <div>Option A: ${questionData.A}</div>
+          <div>Option B: ${questionData.B}</div>
+          <div>Option C: ${questionData.C}</div>
+          <div>Option D: ${questionData.D}</div>
+          <div>Correct Option: ${
+            ["A", "B", "C", "D"][questionData.Answer - 1]
+          }</div>
+          <div>
+            <button class="btn btn-info editBtn" data-id="${
+              docSnapshot.id
+            }" data-key="${key}">Edit</button>
+            <button class="btn btn-danger deleteBtn" data-id="${
+              docSnapshot.id
+            }" data-key="${key}">Delete</button>
+          </div>
+        `;
+
         questionList.appendChild(questionElement);
 
-        // If ismath is 1 (LaTeX), render MathJax
-        if (data.isMath === 1) {
+        if (questionData.isMath === 1) {
           MathJax.Hub.Queue([
             "Typeset",
             MathJax.Hub,
-            `mathjax-container-${docSnapshot.id}`,
+            `mathjax-container-${docSnapshot.id}-${key}`,
           ]);
         }
-      }
+      });
     });
 
-    // Add event listeners to Edit and Delete buttons
-    const editBtns = document.querySelectorAll(".editBtn");
-    editBtns.forEach((btn) => {
-      btn.addEventListener("click", (event) =>
-        editQuestion(event.target.dataset.id)
-      );
-    });
-
-    const deleteBtns = document.querySelectorAll(".deleteBtn");
-    deleteBtns.forEach((btn) => {
-      btn.addEventListener("click", (event) =>
-        deleteQuestion(event.target.dataset.id)
-      );
-    });
+    attachEventListeners();
   } catch (error) {
     console.error("Error loading questions: ", error);
   }
 }
+// Attach event listeners for edit and delete buttons
+const cranks = document.getElementById("ranks");
+cranks.addEventListener("click", () => {
+  window.location.href = `ranks.html`;
+});
 
-// Open the modal to edit a question
-async function editQuestion(questionId) {
-  try {
-    const questionRef = doc(db, "Questions", questionId);
-    const questionDoc = await getDoc(questionRef);
-    const questionData = questionDoc.data();
+function attachEventListeners() {
+  const editBtns = document.querySelectorAll(".editBtn");
+  const deleteBtns = document.querySelectorAll(".deleteBtn");
 
-    // Set the modal fields with current question data
-    document.getElementById("editQuestionText").value = questionData.Question;
-    document.getElementById("editOptionA").value = questionData.A;
-    document.getElementById("editOptionB").value = questionData.B;
-    document.getElementById("editOptionC").value = questionData.C;
-    document.getElementById("editOptionD").value = questionData.D;
-    document.getElementById("editCorrectOption").value =
-      questionData.Answer - 1;
-
-    const saveBtn = document.getElementById("saveChangesBtn");
-    saveBtn.onclick = async () => {
-      const updatedData = {
-        Question: document.getElementById("editQuestionText").value,
-        A: document.getElementById("editOptionA").value,
-        B: document.getElementById("editOptionB").value,
-        C: document.getElementById("editOptionC").value,
-        D: document.getElementById("editOptionD").value,
-        Answer:
-          parseInt(document.getElementById("editCorrectOption").value) + 1,
-      };
-
-      // Update the question in Firestore
-      await updateDoc(questionRef, updatedData);
-      location.reload();
-      // Close the modal after saving changes
-      const modal = bootstrap.Modal.getInstance(
-        document.getElementById("editModal")
-      );
-      modal.hide();
-
-      // Reload questions
-    };
-
-    const modal = new bootstrap.Modal(document.getElementById("editModal"));
-    modal.show();
-
-    // Close the modal when the close button is clicked
-    const closeBtn = document.querySelector(".close-modal-btn");
-    if (closeBtn) {
-      closeBtn.addEventListener("click", () => {
-        const modalInstance = bootstrap.Modal.getInstance(
-          document.getElementById("editModal")
-        );
-        modalInstance.hide();
+  editBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const docId = btn.getAttribute("data-id");
+      const key = btn.getAttribute("data-key");
+      const questionRef = doc(db, "Questions", docId);
+      getDoc(questionRef).then((docSnap) => {
+        const questions = docSnap.data().questions;
+        const questionData = questions[key];
+        showEditForm(docId, key, questionData);
       });
+    });
+  });
+
+  deleteBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const docId = btn.getAttribute("data-id");
+      const key = btn.getAttribute("data-key");
+      deleteQuestion(docId, key);
+    });
+  });
+}
+function showEditForm(docId, key, questionData) {
+  document.getElementById("editQuestionText").value = questionData.Question;
+  document.getElementById("editOptionA").value = questionData.A;
+  document.getElementById("editOptionB").value = questionData.B;
+  document.getElementById("editOptionC").value = questionData.C;
+  document.getElementById("editOptionD").value = questionData.D;
+  document.getElementById("editCorrectOption").value = questionData.Answer - 1;
+
+  // Open edit modal
+  const editModal = new bootstrap.Modal(document.getElementById("editModal"));
+  editModal.show();
+
+  // Save edited question
+  document.getElementById("saveChangesBtn").addEventListener("click", () => {
+    const updatedQuestion = {
+      Question: document.getElementById("editQuestionText").value,
+      A: document.getElementById("editOptionA").value,
+      B: document.getElementById("editOptionB").value,
+      C: document.getElementById("editOptionC").value,
+      D: document.getElementById("editOptionD").value,
+      Answer: parseInt(document.getElementById("editCorrectOption").value) + 1,
+    };
+    editQuestion(docId, key, updatedQuestion);
+    editModal.hide();
+    loadQuestions();
+  });
+}
+
+async function editQuestion(docId, key, newQuestionData) {
+  try {
+    const questionsRef = doc(db, "Questions", docId);
+    const docSnap = await getDoc(questionsRef);
+    const questions = docSnap.data().questions;
+
+    // Make sure we don't delete isMath, set it if it's not present
+    if (!newQuestionData.hasOwnProperty("isMath")) {
+      newQuestionData.isMath = questions[key].isMath; // Keep previous isMath if not provided
     }
+
+    // Update the question with new data
+    questions[key] = newQuestionData;
+
+    // Update Firestore with the new question data
+    await updateDoc(questionsRef, { questions });
+
+    alert("Question updated successfully.");
+
+    // Reload the questions after update
+    loadQuestions(); // This should reload and display the updated question
   } catch (error) {
     console.error("Error editing question: ", error);
+    alert("Failed to update question.");
   }
 }
 
@@ -281,33 +292,53 @@ document
         isMath: questionType, // Store 2 for image, 1 for MathJax, 0 for text
       };
 
-      // Add new question to Firestore
-      const questionRef = collection(db, "Questions");
-      await addDoc(questionRef, newQuestionData);
+      // Add the question to Firestore under the selected category and test
+      const q = query(
+        collection(db, "Questions"),
+        where("CATEGORY", "==", selectedCatId),
+        where("TEST", "==", selectedTestId)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((docSnapshot) => {
+        const questionsRef = doc(db, "Questions", docSnapshot.id);
+        updateDoc(questionsRef, {
+          questions: {
+            ...docSnapshot.data().questions,
+            [Date.now()]: {
+              Question: newQuestionText,
+              ...newQuestionData,
+            },
+          },
+        });
+      });
 
-      // Close the modal
-      const modal = new bootstrap.Modal(document.getElementById("addModal"));
-      modal.hide();
-
-      // Reload questions (or you could just add it dynamically without reload)
-      location.reload();
+      alert("Question added successfully.");
+      loadQuestions(); // Reload questions after adding the new one
+      const addModal = bootstrap.Modal.getInstance(
+        document.getElementById("addModal")
+      );
+      addModal.hide(); // Close the modal after saving
     } catch (error) {
       console.error("Error adding question: ", error);
     }
   });
 
 // Delete a question
-async function deleteQuestion(questionId) {
+async function deleteQuestion(docId, key) {
   try {
-    const questionRef = doc(db, "Questions", questionId);
-    await deleteDoc(questionRef);
-    location.reload();
+    const questionsRef = doc(db, "Questions", docId);
+    const docSnap = await getDoc(questionsRef);
+    const questions = docSnap.data().questions;
+    delete questions[key];
+    await updateDoc(questionsRef, { questions });
+    loadQuestions();
   } catch (error) {
     console.error("Error deleting question: ", error);
   }
 }
 
 // Load questions when the page is ready
+loadQuestions();
 document.addEventListener("DOMContentLoaded", () => {
   loadQuestions();
 });

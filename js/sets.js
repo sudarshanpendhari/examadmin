@@ -9,6 +9,7 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  setDoc,
   deleteField,
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
@@ -133,12 +134,11 @@ async function loadTests(catId, nooftests) {
 async function handleCreateTest() {
   try {
     // Get the reference to QUIZ/${selectedCatId}
-
     const quizDocRef = doc(db, `${collectionName}/${selectedCatId}`);
     const quizDocSnap = await getDoc(quizDocRef);
 
     if (!quizDocSnap.exists()) {
-      alert("${coolection} document not found!");
+      alert(`${collectionName} document not found!`);
       return;
     }
 
@@ -165,6 +165,7 @@ async function handleCreateTest() {
       return;
     }
     console.log(testInfoDocRef);
+
     // Prompt for new test details
     const testName = prompt("Enter the new test name:");
     const testDuration = prompt("Enter the duration (in minutes):");
@@ -193,7 +194,20 @@ async function handleCreateTest() {
     });
     console.log("NO_OF_TEST field updated:", currentNoOfTests + 1);
 
-    alert("Test added successfully!");
+    // Create a new document in Questions collection with test data
+    const questionsRef = collection(db, "Questions");
+    const newTestDocRef = doc(questionsRef, testName); // Use test name as document name
+    const newTestDocData = {
+      TEST: testName,
+      CATEGORY: selectedCatId,
+      questions: [], // Empty array for questions
+    };
+
+    // Add the new document to the Questions collection
+    await setDoc(newTestDocRef, newTestDocData);
+    console.log(`New document created in Questions collection: ${testName}`);
+
+    alert("Test added successfully, and Questions document created!");
     loadTests(selectedCatId, parsedNot); // Reload tests to reflect the new addition
   } catch (error) {
     console.error("Error creating test:", error);
@@ -211,6 +225,14 @@ async function updateTest(testId, updatedData) {
     );
     await updateDoc(testRef, updatedData);
     console.log("Test updated successfully");
+
+    // Update the corresponding document in the Questions collection
+    const questionsDocRef = doc(db, "Questions", testId); // Use testId as doc name
+    await updateDoc(questionsDocRef, {
+      TEST: updatedData.testName || testId, // Update the test name if provided
+      CATEGORY: selectedCatId, // Ensure the category is correct
+    });
+    console.log("Corresponding Questions document updated successfully");
   } catch (error) {
     console.error("Error updating test: ", error);
   }
@@ -231,12 +253,17 @@ async function deleteTest(testId) {
         testInfoDocRef = doc.ref; // Get the document reference
       }
     });
-    // const testInfoRef = doc(db, `QUIZ/${selectedCatId}/TESTS_LIST`, "TESTS_INFO");
-    console.log(testInfoDocRef, testId.slice(-1));
+
+    if (!testInfoDocRef) {
+      console.error("TESTS_INFO document not found");
+      return;
+    }
+
     const updates = {
       [`TEST${testId.slice(-1)}_ID`]: deleteField(),
       [`TEST${testId.slice(-1)}_TIME`]: deleteField(),
     };
+
     await updateDoc(testInfoDocRef, updates);
     console.log("TESTS_INFO document updated to remove test details:", testId);
 
@@ -253,6 +280,11 @@ async function deleteTest(testId) {
       await updateDoc(quizDocRef, { NO_OF_TESTS: newNoOfTests });
       console.log("NO_OF_TEST field updated:", newNoOfTests);
     }
+
+    // Delete the corresponding document in the Questions collection
+    const questionsDocRef = doc(db, "Questions", testId); // Use testId as doc name
+    await deleteDoc(questionsDocRef); // Delete the document
+    console.log("Corresponding Questions document deleted successfully");
 
     // Reload the tests to reflect changes
     loadTests(selectedCatId, not);

@@ -1,18 +1,24 @@
 <html>
+
 <head>
     <title id="title1">Manage Questions - ExamMitra</title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
-    <script defer type="module" src="question.js"></script>
+    <script defer type="module" src="js/question.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <style>div {
-        display: block;
-        margin-bottom: 5px; /* optional: adds space between lines */
-    }</style>
+    <style>
+        div {
+            display: block;
+            margin-bottom: 5px;
+            /* optional: adds space between lines */
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Manage Questions for Exam Set</h1>
+        <button class="btn btn-primary" id="ranks">Check Ranks</button>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
             Add New Question
         </button>
@@ -21,73 +27,73 @@
         </div>
 
         <!-- Modal for Add New Question -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Add New Question</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addQuestionForm">
-                    <!-- Question Type Dropdown -->
-                    <div class="mb-3">
-                        <label for="questionType" class="form-label">Question Type</label>
-                        <select class="form-select" id="questionType">
-                            <option value="0">Text</option>
-                            <option value="1">MathJax</option>
-                            <option value="2">Image</option>
-                        </select>
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">Add New Question</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        <form id="addQuestionForm">
+                            <!-- Question Type Dropdown -->
+                            <div class="mb-3">
+                                <label for="questionType" class="form-label">Question Type</label>
+                                <select class="form-select" id="questionType">
+                                    <option value="0">Text</option>
+                                    <option value="1">MathJax</option>
+                                    <option value="2">Image</option>
+                                </select>
+                            </div>
 
-                    <!-- Question Text Input -->
-                    <div class="mb-3" id="q">
-                        <label for="newQuestionText" class="form-label">Question</label>
-                        <input type="text" class="form-control" id="newQuestionText">
-                    </div>
+                            <!-- Question Text Input -->
+                            <div class="mb-3" id="q">
+                                <label for="newQuestionText" class="form-label">Question</label>
+                                <input type="text" class="form-control" id="newQuestionText">
+                            </div>
 
-                    <!-- Option A, B, C, D Inputs -->
-                    <div class="mb-3" id="A">
-                        <label for="newOptionA" class="form-label">Option A</label>
-                        <input type="text" class="form-control" id="newOptionA">
-                    </div>
-                    <div class="mb-3" id="B">
-                        <label for="newOptionB" class="form-label">Option B</label>
-                        <input type="text" class="form-control" id="newOptionB">
-                    </div>
-                    <div class="mb-3" id="C">
-                        <label for="newOptionC" class="form-label">Option C</label>
-                        <input type="text" class="form-control" id="newOptionC">
-                    </div>
-                    <div class="mb-3" id="D">
-                        <label for="newOptionD" class="form-label">Option D</label>
-                        <input type="text" class="form-control" id="newOptionD">
-                    </div>
+                            <!-- Option A, B, C, D Inputs -->
+                            <div class="mb-3" id="A">
+                                <label for="newOptionA" class="form-label">Option A</label>
+                                <input type="text" class="form-control" id="newOptionA">
+                            </div>
+                            <div class="mb-3" id="B">
+                                <label for="newOptionB" class="form-label">Option B</label>
+                                <input type="text" class="form-control" id="newOptionB">
+                            </div>
+                            <div class="mb-3" id="C">
+                                <label for="newOptionC" class="form-label">Option C</label>
+                                <input type="text" class="form-control" id="newOptionC">
+                            </div>
+                            <div class="mb-3" id="D">
+                                <label for="newOptionD" class="form-label">Option D</label>
+                                <input type="text" class="form-control" id="newOptionD">
+                            </div>
 
-                    <!-- Correct Option Dropdown -->
-                    <div class="mb-3 ">
-                        <label for="newCorrectOption" class="form-label">Correct Option</label>
-                        <select class="form-select" id="newCorrectOption">
-                            <option value="0">Option A</option>
-                            <option value="1">Option B</option>
-                            <option value="2">Option C</option>
-                            <option value="3">Option D</option>
-                        </select>
-                    </div>
+                            <!-- Correct Option Dropdown -->
+                            <div class="mb-3 ">
+                                <label for="newCorrectOption" class="form-label">Correct Option</label>
+                                <select class="form-select" id="newCorrectOption">
+                                    <option value="0">Option A</option>
+                                    <option value="1">Option B</option>
+                                    <option value="2">Option C</option>
+                                    <option value="3">Option D</option>
+                                </select>
+                            </div>
 
-                    <!-- Image Upload Field (Only visible if Image is selected) -->
-                    <div class="mb-3" id="imageUploadField" style="display: none;">
-                        <label for="imageUpload" class="form-label">Upload Question Image</label>
-                        <input type="file" class="form-control" id="imageUpload">
-                    </div>
+                            <!-- Image Upload Field (Only visible if Image is selected) -->
+                            <div class="mb-3" id="imageUploadField" style="display: none;">
+                                <label for="imageUpload" class="form-label">Upload Question Image</label>
+                                <input type="file" class="form-control" id="imageUpload">
+                            </div>
 
-                    <!-- Save Button -->
-                    <button type="button" class="btn btn-primary" id="saveNewQuestionBtn">Save Question</button>
-                </form>
+                            <!-- Save Button -->
+                            <button type="button" class="btn btn-primary" id="saveNewQuestionBtn">Save Question</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 
         <!-- Modal for Editing Question -->
@@ -137,4 +143,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -72,7 +72,7 @@ async function loadCategories() {
       if (catDoc) {
         const {
           NAME: catName,
-          IMG_LINK: imgLink,
+          img_Link: imgLink,
           NO_OF_TESTS: noOfTests,
         } = catDoc.data();
 
@@ -82,7 +82,7 @@ async function loadCategories() {
         categoryCard.innerHTML = `
                     <div class="card">
                         <div class="card-body">
-                            <img class="imgLink" alt="${catName} Icon" height="50" src="${imgLink}" width="50" />
+                            <img class="imgLink" alt="${catName} Icon" height="75vh" src="${imgLink}" width="120vw" />
                             <div class="progress">
                                 <div class="progress-bar" style="width: 50%;"></div>
                             </div>
@@ -133,7 +133,7 @@ async function handleCreateCategory() {
   try {
     const newCategory = {
       NAME: catName,
-      IMG_LINK: imgLink,
+      img_Link: imgLink,
       NO_OF_TESTS: 0,
     };
 
