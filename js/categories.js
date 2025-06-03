@@ -16,7 +16,69 @@ import {
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
 // Firebase configuration
-const _0x19e732=_0x4893;(function(_0x1942c8,_0x3d2c28){const _0x2eda14=_0x4893,_0x466bfb=_0x1942c8();while(!![]){try{const _0x368d17=-parseInt(_0x2eda14(0xf1))/0x1*(-parseInt(_0x2eda14(0xe9))/0x2)+parseInt(_0x2eda14(0xe7))/0x3+parseInt(_0x2eda14(0xed))/0x4+-parseInt(_0x2eda14(0xeb))/0x5+-parseInt(_0x2eda14(0xee))/0x6+-parseInt(_0x2eda14(0xea))/0x7*(parseInt(_0x2eda14(0xf0))/0x8)+-parseInt(_0x2eda14(0xf3))/0x9*(-parseInt(_0x2eda14(0xf4))/0xa);if(_0x368d17===_0x3d2c28)break;else _0x466bfb['push'](_0x466bfb['shift']());}catch(_0x49c608){_0x466bfb['push'](_0x466bfb['shift']());}}}(_0x16c5,0xee6e4));function _0x4893(_0x22e5b5,_0x33da82){const _0x16c5f4=_0x16c5();return _0x4893=function(_0x48933c,_0x195f1d){_0x48933c=_0x48933c-0xe7;let _0x5caed1=_0x16c5f4[_0x48933c];return _0x5caed1;},_0x4893(_0x22e5b5,_0x33da82);}const fconf={'apiKey':_0x19e732(0xf2),'authDomain':'cetapp-5ef90.firebaseapp.com','projectId':_0x19e732(0xe8),'storageBucket':_0x19e732(0xef),'messagingSenderId':_0x19e732(0xec),'appId':'1:710169034602:web:47b6b7703fd292e3ebef13'};function _0x16c5(){const _0x393414=['3471858nrNCHW','cetapp-5ef90','2KWuWsA','7iaJJxZ','5168515JECxmu','710169034602','2357508LYcMkJ','6839688qauVJa','cetapp-5ef90.appspot.com','1199784UWUjus','47981VMMhEZ','AIzaSyCja31wklmLjFLwa4a2NRCiU8lub-MVofw','17109DTQFzR','7920EwlzGq'];_0x16c5=function(){return _0x393414;};return _0x16c5();}
+const _0x19e732 = _0x4893;
+(function (_0x1942c8, _0x3d2c28) {
+  const _0x2eda14 = _0x4893,
+    _0x466bfb = _0x1942c8();
+  while (!![]) {
+    try {
+      const _0x368d17 =
+        (-parseInt(_0x2eda14(0xf1)) / 0x1) *
+          (-parseInt(_0x2eda14(0xe9)) / 0x2) +
+        parseInt(_0x2eda14(0xe7)) / 0x3 +
+        parseInt(_0x2eda14(0xed)) / 0x4 +
+        -parseInt(_0x2eda14(0xeb)) / 0x5 +
+        -parseInt(_0x2eda14(0xee)) / 0x6 +
+        (-parseInt(_0x2eda14(0xea)) / 0x7) * (parseInt(_0x2eda14(0xf0)) / 0x8) +
+        (-parseInt(_0x2eda14(0xf3)) / 0x9) * (-parseInt(_0x2eda14(0xf4)) / 0xa);
+      if (_0x368d17 === _0x3d2c28) break;
+      else _0x466bfb["push"](_0x466bfb["shift"]());
+    } catch (_0x49c608) {
+      _0x466bfb["push"](_0x466bfb["shift"]());
+    }
+  }
+})(_0x16c5, 0xee6e4);
+function _0x4893(_0x22e5b5, _0x33da82) {
+  const _0x16c5f4 = _0x16c5();
+  return (
+    (_0x4893 = function (_0x48933c, _0x195f1d) {
+      _0x48933c = _0x48933c - 0xe7;
+      let _0x5caed1 = _0x16c5f4[_0x48933c];
+      return _0x5caed1;
+    }),
+    _0x4893(_0x22e5b5, _0x33da82)
+  );
+}
+const fconf = {
+  apiKey: _0x19e732(0xf2),
+  authDomain: "cetapp-5ef90.firebaseapp.com",
+  projectId: _0x19e732(0xe8),
+  storageBucket: _0x19e732(0xef),
+  messagingSenderId: _0x19e732(0xec),
+  appId: "1:710169034602:web:47b6b7703fd292e3ebef13",
+};
+function _0x16c5() {
+  const _0x393414 = [
+    "3471858nrNCHW",
+    "cetapp-5ef90",
+    "2KWuWsA",
+    "7iaJJxZ",
+    "5168515JECxmu",
+    "710169034602",
+    "2357508LYcMkJ",
+    "6839688qauVJa",
+    "cetapp-5ef90.appspot.com",
+    "1199784UWUjus",
+    "47981VMMhEZ",
+    "AIzaSyCja31wklmLjFLwa4a2NRCiU8lub-MVofw",
+    "17109DTQFzR",
+    "7920EwlzGq",
+  ];
+  _0x16c5 = function () {
+    return _0x393414;
+  };
+  return _0x16c5();
+}
 
 // Initialize Firebase and Firestore
 const app = initializeApp(fconf);
@@ -31,13 +93,58 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("uname").innerText = user;
   loadCategories();
 
-  // Attach event listener to the "Create Category" button
   const createCategoryButton = document.getElementById("createCategoryButton");
   if (createCategoryButton) {
-    createCategoryButton.addEventListener("click", handleCreateCategory);
+    createCategoryButton.addEventListener("click", () => {
+      document.getElementById("categoryModalLabel").innerText = "Add Category";
+      document.getElementById("categoryId").value = "";
+      document.getElementById("catName").value = "";
+      document.getElementById("imgLink").value = "";
+      document.getElementById("posMarks").value = "";
+      document.getElementById("negMarks").value = "";
+      document.getElementById("marksSection").classList.remove("d-none");
+      new bootstrap.Modal(document.getElementById("categoryModal")).show();
+    });
   }
-});
 
+  document
+    .getElementById("categoryForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const catId = document.getElementById("categoryId").value;
+      const catName = document.getElementById("catName").value;
+      const imgLink = document.getElementById("imgLink").value;
+      const posMarks = document.getElementById("posMarks").value;
+      const negMarks = document.getElementById("negMarks").value;
+
+      if (!catName || !imgLink || !posMarks || !negMarks)
+        return alert("Please fill required fields.");
+
+      if (catId) {
+        // Update
+        await updateCategory(
+          catId,
+          { NAME: catName, img_Link: imgLink },
+          posMarks,
+          negMarks
+        );
+      } else {
+        // Create
+        await handleCreateCategoryFromModal(
+          catName,
+          imgLink,
+          posMarks,
+          negMarks
+        );
+      }
+
+      bootstrap.Modal.getInstance(
+        document.getElementById("categoryModal")
+      ).hide();
+      //loadCategories();
+    });
+});
 // Function to load categories from Firestore and render them in the HTML
 async function loadCategories() {
   try {
@@ -80,7 +187,7 @@ async function loadCategories() {
                                 <div class="progress-bar" style="width: 50%;"></div>
                             </div>
                             <p class="courseName">${catName}</p>
-                            <button class="btn take-test-btn" data-cat-id="${catId}" data-cat-name="${catName}" data-no-of-tests="${noOfTests}">Take Test</button>
+                            <button class="btn take-test-btn" data-cat-id="${catId}" data-cat-name="${catName}" data-no-of-tests="${noOfTests}">Visit</button>
                             <button class="btn btn-warning edit-category-btn" data-cat-id="${catId}">Edit</button>
                             <button class="btn btn-danger delete-category-btn" data-cat-id="${catId}">Delete</button>
                         </div>
@@ -115,14 +222,12 @@ async function loadCategories() {
     console.error("Error loading categories: ", error);
   }
 }
-async function handleCreateCategory() {
-  const catName = prompt("Enter the new category name:");
-  const imgLink = prompt("Enter the image link for the category:");
-  const posMarks = prompt("Enter the positive marks for tests:");
-  const negMarks = prompt("Enter the negative marks for tests:");
-
-  if (!catName || !imgLink || posMarks === null || negMarks === null) return;
-
+async function handleCreateCategoryFromModal(
+  catName,
+  imgLink,
+  posMarks,
+  negMarks
+) {
   try {
     const newCategory = {
       NAME: catName,
@@ -169,10 +274,16 @@ async function handleCreateCategory() {
 }
 
 // Edit a category
-async function updateCategory(catId, updatedData) {
+async function updateCategory(catId, updatedData, posMarks, negMarks) {
   try {
     const catRef = doc(db, courseName, catId);
     await updateDoc(catRef, updatedData);
+
+    const testInfoRef = doc(db, courseName, catId, "TESTS_LIST", "TESTS_INFO");
+    await updateDoc(testInfoRef, {
+      PosMarks: Number(posMarks),
+      NegMarks: Number(negMarks),
+    });
     console.log("Category updated successfully");
   } catch (error) {
     console.error("Error updating category: ", error);
@@ -220,12 +331,32 @@ function attachEventListeners() {
   document.querySelectorAll(".edit-category-btn").forEach((button) => {
     button.addEventListener("click", async (e) => {
       const catId = e.target.getAttribute("data-cat-id");
-      const newCatName = prompt("Enter new category name:");
-      const newImgLink = prompt("Enter new image link:");
-
-      if (newCatName && newImgLink) {
-        await updateCategory(catId, { NAME: newCatName, IMG_LINK: newImgLink });
-        loadCategories();
+      const catDoc = await getDoc(doc(db, courseName, catId));
+      if (catDoc.exists()) {
+        const data = catDoc.data();
+        document.getElementById("categoryModalLabel").innerText =
+          "Edit Category";
+        document.getElementById("categoryId").value = catId;
+        document.getElementById("catName").value = data.NAME;
+        document.getElementById("imgLink").value = data.img_Link || "";
+        document.getElementById("marksSection").classList.remove("d-none");
+        const testInfoRef = doc(
+          db,
+          courseName,
+          catId,
+          "TESTS_LIST",
+          "TESTS_INFO"
+        );
+        const testInfoSnap = await getDoc(testInfoRef);
+        if (testInfoSnap.exists()) {
+          const testData = testInfoSnap.data();
+          document.getElementById("posMarks").value = testData.PosMarks ?? "";
+          document.getElementById("negMarks").value = testData.NegMarks ?? "";
+        } else {
+          document.getElementById("posMarks").value = "";
+          document.getElementById("negMarks").value = "";
+        }
+        new bootstrap.Modal(document.getElementById("categoryModal")).show();
       }
     });
   });
