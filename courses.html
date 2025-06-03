@@ -25,7 +25,7 @@
     <div class="d-flex">
          <!-- Sidebar -->
         <div id="sidebar" class="sidebar">
-            <div class="logo mb-4 ">
+            <div class="logo mb-4  ">
                 <img alt="ExamMitra Logo" height="150" src="img/Exammitra.png" width="150" />
             </div>
             <a class="active" href="#dashboard">Dashboard</a>
@@ -38,9 +38,9 @@
             <a href="#">ExamMitra Social</a>
 
             <div class="help mt-4">
-                <a href="#">Help</a>
-                <a href="#">Settings</a>
-                <a href="#">Messages</a>
+                <a href="javascript:void(0);" onclick="openmainpage()">Main Page </a>
+                <a href="javascript:void(0);" onclick="opencontactpage()">Check Messages</a>
+               
             </div>
         </div>
         <div class="content flex-grow-1">
@@ -112,6 +112,13 @@
         function openCoursesPage() {
             window.location.href = "courses.html";
         }
+        function openmainpage() {
+            window.location.href = "https://sudarshanpendhari.github.io/OnlineExamSystem/";
+        }
+        function opencontactpage() {
+            window.location.href = "https://docs.google.com/spreadsheets/d/13qDbW9YaNsmNPcbmuD7QR1SZYnv3jjVfDTT6Xp3SMAc/edit?usp=sharing";
+        }
+
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const content = document.getElementById("content");
