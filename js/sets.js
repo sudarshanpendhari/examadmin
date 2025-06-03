@@ -143,28 +143,31 @@ async function loadTests(catId, nooftests) {
           const duration = testData[testTimeKey];
           const posmarks = testData.PosMarks || 2;
           const negmarks = testData.NegMarks || 0;
-
+         const pos=i;
           testList.push({
+            
             id: testId,
             duration: duration,
             questions: testData.QUESTIONS,
             posmarks: posmarks,
             negmarks: negmarks,
+          
           });
 
           const testCard = document.createElement("div");
           testCard.classList.add("col-md-4");
+          
           testCard.innerHTML = `
                         <div class="card test-card">
                             <div class="card-body">
                                 <h5 class="test-name">${testId}</h5>
                                 <p class="test-name">Duration: ${duration} mins</p>
                                 <button class="btn btn-primary start-test-btn" 
-                                    data-test-id="${testId}" data-duration="${duration}" 
+                                    data-test-id="${testId}"  pos="${pos}" data-duration="${duration}" 
                                     data-pm="${posmarks}" data-nm="${negmarks}">
                                     Check Test
                                 </button>
-                                <button class="btn btn-warning edit-test-btn" data-test-id="${testId}">
+                                <button class="btn btn-warning edit-test-btn" data-test-id="${testId}"  pos="${pos}" data-duration="${duration}" >
                                     Edit
                                 </button>
                                 <button class="btn btn-danger delete-test-btn" data-test-id="${testId}">
@@ -221,13 +224,28 @@ async function handleCreateTest() {
       alert("TEST_INFO document not found!");
       return;
     }
-    console.log(testInfoDocRef);
+     document.getElementById("testForm").reset();
+    document.getElementById("testId").value = "";
 
-    // Prompt for new test details
-    const testName = prompt("Enter the new test name:");
-    const testDuration = prompt("Enter the duration (in minutes):");
-    if (!testName || !testDuration) return;
+    const testModal = new bootstrap.Modal(document.getElementById("testModal"));
+    testModal.show();
 
+    // Remove previous event listener to prevent duplicate submissions
+    const form = document.getElementById("testForm");
+    const newForm = form.cloneNode(true);
+    form.parentNode.replaceChild(newForm, form);
+
+    newForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const testName = document.getElementById("testName").value.trim();
+      const testDuration = parseInt(document.getElementById("testDuration").value.trim(), 10);
+
+      if (!testName || isNaN(testDuration)) {
+        alert("Please fill out all fields correctly.");
+        return;
+      }
+
+      testModal.hide();
     // Prepare the data to add to TEST_INFO
     const newTestData = {
       [`TEST${currentNoOfTests}_ID`]: testName,
@@ -259,6 +277,7 @@ async function handleCreateTest() {
 
     alert("Test added successfully, and Questions document created!");
     loadTests(selectedCatId, currentNoOfTests); // Reload tests to reflect the new addition
+  });
   } catch (error) {
     console.error("Error creating test:", error);
     alert("Failed to create test.");
@@ -271,7 +290,7 @@ async function updateTest(testId, updatedData) {
     const testRef = doc(
       db,
       `${collectionName}/${selectedCatId}/TESTS_LIST`,
-      testId
+      "TESTS_INFO"
     );
     await updateDoc(testRef, updatedData);
     console.log("Test updated successfully");
@@ -362,20 +381,47 @@ function navigateToTest(testId, duration, posmarks, negmarks) {
 function attachEventListeners() {
   // Edit test
   document.querySelectorAll(".edit-test-btn").forEach((button) => {
-    button.addEventListener("click", async (e) => {
-      const testId = e.target.getAttribute("data-test-id");
-      const newTestName = prompt("Enter new test name:");
-      const newTestDuration = prompt("Enter new test duration (in minutes):");
+  button.addEventListener("click", async (e) => {
+    const testId = e.target.getAttribute("data-test-id");
+      const duration = e.target.getAttribute("data-duration");
+      const pos = e.target.getAttribute("pos");
+    
 
-      if (newTestName && newTestDuration) {
-        await updateTest(testId, {
-          NAME: newTestName,
-          DURATION: newTestDuration,
-        });
-        loadTests(selectedCatId, not);
+    document.getElementById("testName").value = testId || "";
+    document.getElementById("testDuration").value = duration || "";
+    document.getElementById("testId").value = testId;
+
+    const testModal = new bootstrap.Modal(document.getElementById("testModal"));
+    testModal.show();
+
+    // Replace existing event listener to avoid multiple bindings
+    const form = document.getElementById("testForm");
+    const newForm = form.cloneNode(true);
+    form.parentNode.replaceChild(newForm, form);
+document.getElementById("testName").readOnly = true;
+    newForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+
+      const updatedName = document.getElementById("testName").value.trim();
+      const updatedDuration = parseInt(document.getElementById("testDuration").value.trim(), 10);
+
+      if (!updatedName || isNaN(updatedDuration)) {
+        alert("Please enter valid test details.");
+        return;
       }
+
+      testModal.hide();
+
+      await updateTest(testId, {
+        [`TEST${pos}_ID`]: updatedName,
+      [`TEST${pos}_TIME`]: updatedDuration,
+      });
+
+      loadTests(selectedCatId, not);
     });
   });
+});
 
   // Delete test
   document.querySelectorAll(".delete-test-btn").forEach((button) => {

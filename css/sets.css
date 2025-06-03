@@ -73,6 +73,9 @@ body {
     margin-top: 55px;
 }
 }
+  #title{
+        margin-left: 40px;
+    }
 .header {
     display: flex;
     justify-content: space-between;

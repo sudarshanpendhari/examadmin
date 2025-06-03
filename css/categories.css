@@ -172,4 +172,6 @@ body {
 .view-more a {
     color: #6c63ff;
     text-decoration: none;
-}
+}  #title{
+        margin-left: 40px;
+    }
